@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 
+//  8base Queries
+
 export const TASKS_LIST_QRY = gql`
   query tasksList {
     tasksList {
@@ -32,14 +34,15 @@ export const TASK_INFO_QRY = gql`
   }
 `;
 
-export const TASKLIST_QR = gql`
-  query ($id: ID!) {
-    alliance(id: $id) {
-      ...AllianceFragment
+export const USER_LIST_QR = gql`
+  query usersList {
+    usersList {
+      items {
+        id
+        email
+        status
+        firstName
+      }
     }
   }
 `;
-
-//8base Queries
-
-

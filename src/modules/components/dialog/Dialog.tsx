@@ -4,26 +4,49 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TaskType } from "../types";
-import { updateTaskAction } from "../actions";
+import { TaskType, UserType } from "../types";
+import { getUsersAction, updateTaskAction } from "../actions";
 import Grid from "@material-ui/core/Grid";
+import { createStyles, makeStyles, MenuItem, Theme } from "@material-ui/core";
 
 export interface DialogViewProps {
   open: boolean;
   onClose: () => void;
   taskData: TaskType;
 }
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      "& .MuiTextField-root": {
+        margin: theme.spacing(1),
+        width: "25ch",
+      },
+    },
+  })
+);
 export const DialogView: React.FunctionComponent<DialogViewProps> = ({
   open,
   onClose,
   taskData,
 }) => {
-  // const [open, setOpen] = React.useState(false);
   const [task, setNewTask] = useState(taskData);
-  // console.log(task);
-  
+
+  const [users, setUsers] = useState<UserType[]>([]);
+  const [user, setUser] = useState(taskData.taskUser);
+
+  console.log(users);
+
+  const callback = (dataUsers: UserType[]): void => {
+    setUsers(dataUsers);
+  };
+  const getUsers = () => {
+    getUsersAction(callback);
+  };
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   useEffect(() => {
     setNewTask({ ...taskData });
   }, [taskData]);
@@ -36,11 +59,20 @@ export const DialogView: React.FunctionComponent<DialogViewProps> = ({
   };
 
   const updateTask = (): void => {
-    if (task.id) {
-      updateTaskAction(task, task.id );
+    const newTask = {
+      ...task,
+      taskUser: user,
     };
+    if (task.id) {
+      updateTaskAction(newTask, task.id);
+    }
     onClose();
   };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value);
+  };
+  const classes = useStyles();
   return (
     <div>
       <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -49,7 +81,6 @@ export const DialogView: React.FunctionComponent<DialogViewProps> = ({
           <TextField
             autoFocus
             margin="dense"
-            // id="name"
             label="Title"
             type="text"
             fullWidth
@@ -60,43 +91,44 @@ export const DialogView: React.FunctionComponent<DialogViewProps> = ({
           <Grid
             container
             direction="row"
-            justifyContent="space-around"
+            justifyContent="space-between"
             alignItems="center"
           >
-            <Grid item md={5}>
+            <Grid item md={6}>
               <TextField
                 autoFocus
-                margin="dense"
-                // id="name"
-                // label=""
                 type="date"
-                fullWidth
+                name="taskStart"
                 value={task.taskStart}
               />
             </Grid>
-            <Grid item md={5}>
+            <Grid item md={6}>
               <TextField
                 autoFocus
-                margin="dense"
                 id="name"
-                label="Email Address"
                 type="date"
-                fullWidth
+                name="taskEnd"
                 value={task.taskEnd}
               />
             </Grid>
           </Grid>
 
+
           <TextField
-            autoFocus
-            margin="dense"
-            // id="name"
-            label="Subject"
-            type="text"
-            fullWidth
+            className={classes.root}
+            id="demo-simple-select"
+            select
+            label="Users"
+            value={user}
             name="taskUser"
-            value={task.taskUser}
-          />
+            onChange={handleChange}
+          >
+            {users.map((user) => (
+              <MenuItem key={user.id} value={user.email}>
+                {user.firstName}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             autoFocus
             margin="dense"
@@ -106,6 +138,7 @@ export const DialogView: React.FunctionComponent<DialogViewProps> = ({
             fullWidth
             name="taskDscr"
             value={task.taskDscr}
+            onChange={setStateTask}
           />
         </DialogContent>
         <DialogActions>

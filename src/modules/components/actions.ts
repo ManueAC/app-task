@@ -1,7 +1,5 @@
-import { ApolloClient } from "apollo-client";
-import { TaskType, TaskTypeData } from "./types";
-import { TASKS_LIST_QRY } from "../queries/index";
-import { useQuery } from "@apollo/client";
+import { TaskType, UserType } from "./types";
+import { TASKS_LIST_QRY, USER_LIST_QR } from "../queries/index";
 import { client } from "../../shared/api/index";
 import { TASK_CREATE_MUT, TASK_STATUS_MUT, TASK_UPDATE_MUT } from "../mutations";
 
@@ -40,7 +38,6 @@ export const createTaskAction = async (
 export const updateTaskAction = async (
   inputData: TaskType,
   filter: string
-  // callback: () => void
 ): Promise<void> => {
   const { taskTitle, taskUser, taskDscr, taskCheck, taskStart, taskEnd } =
     inputData;
@@ -104,6 +101,22 @@ export const statusTaskAction = async (
     });
     console.log(data);
     obtenerTareas();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Users
+
+export const getUsersAction = async (
+  callback: (data: UserType[]) => void
+): Promise<void> => {
+  try {
+    const { data } = await client.query({
+      query: USER_LIST_QR,
+    });
+    console.log(data);
+    callback(data.usersList.items);
   } catch (err) {
     console.log(err);
   }

@@ -1,4 +1,3 @@
-import { QueryResult } from "@apollo/client";
 
 export interface TaskType {
   id?: string;
@@ -10,8 +9,12 @@ export interface TaskType {
   taskEnd: string;
 }
 
-export type TaskTypeData = {
-  tasksList: {
-    items: TaskType[];
-  };
+export interface UserType {
+  id?: string;
+  email: string;
+  status: string;
+  firstName: string;
+  lastName: string;
+  secondName: string;
+  origin: string;
 };

@@ -3,20 +3,17 @@ import {
   Grid,
   IconButton,
   Typography,
-  TextField,
-  InputAdornment,
+  TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { Fragment, useState } from "react";
 // Components
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { useMutation } from "@apollo/client";
-import { TaskType, TaskTypeData } from "../types";
-import { TASK_CREATE_MUT } from "../../mutations";
+import { TaskType } from "../types";
 import { createTaskAction } from "../actions";
 import { useHistory } from "react-router-dom";
-// import {getTaskAction} from '';
+
 const FormNT = makeStyles({
   root: {
     margin: "20% auto",
@@ -77,9 +74,7 @@ export const NewTask = () => {
               <IconButton>
                 <ClearIcon />
               </IconButton>
-              {/* <Box border={3} borderColor='black' borderRadius='50%' padding={3}>
-                        <Typography>A</Typography>
-                    </Box> */}
+              
             </Grid>
           </Grid>
           <Grid container direction="row">

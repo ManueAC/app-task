@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
+
 // 8Base Mutations
+
 export const TASK_CREATE_MUT = gql`
   mutation taskCreate($input: TaskCreateInput!) {
     taskCreate(data: $input) {
@@ -54,15 +56,15 @@ export const TASK_UPDFLT_MUT = gql`
   }
 `;
 
-
-
 export const TASK_STATUS_MUT = gql`
-  mutation taskUpdateByFilter($filter: TaskFilter!, $status: TaskUpdateByFilterInput!){
-  taskUpdateByFilter(filter: $filter, data: $status){
-    items{
-      taskCheck
+  mutation taskUpdateByFilter(
+    $filter: TaskFilter!
+    $status: TaskUpdateByFilterInput!
+  ) {
+    taskUpdateByFilter(filter: $filter, data: $status) {
+      items {
+        taskCheck
+      }
     }
   }
-}
 `;
-

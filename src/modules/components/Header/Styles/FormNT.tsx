@@ -6,17 +6,9 @@ import {
   Typography,
   TextField,
   Box,
-  Button,
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
-import { border } from "@material-ui/system";
-// import DateFnsUtils from '@date-io/date-fns';
-// import {
-//     MuiPickersUtilsProvider,
-//     KeyboardDatePicker,
-//     KeyboardTimePicker
-// } from '@material-ui/pickers';
 
 const FormNT = makeStyles({
   root: {
@@ -34,7 +26,6 @@ const FormNT = makeStyles({
 export default function BasicTextFields() {
   const classes = FormNT();
 
-  // const classesFW = ;
   return (
     <Box borderLeft={1} borderColor="grey.500" width="45%" margin="auto">
       <form className={classes.root} noValidate autoComplete="off">
@@ -49,9 +40,6 @@ export default function BasicTextFields() {
             <IconButton>
               <ClearIcon />
             </IconButton>
-            {/* <Box border={3} borderColor='black' borderRadius='50%' padding={3}>
-                        <Typography>A</Typography>
-                    </Box> */}
           </Grid>
         </Grid>
         <Grid container direction="row">
@@ -60,38 +48,14 @@ export default function BasicTextFields() {
               className={classes.FW}
               id="standard-full-width"
               label="Task name"
-              //   value={}
-              //   placeholder="Name"
-              //   onChange={}
             />
           </Grid>
-
-          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker 
-                        label="Date start"
-                        type={'date'}
-                    />
-                </MuiPickersUtilsProvider>                 */}
 
           <Grid item md={6}>
-            <TextField
-              id="standard-basic"
-              // label="Start"
-              type="date"
-              margin="normal"
-            />
+            <TextField id="standard-basic" type="date" margin="normal" />
           </Grid>
           <Grid container direction="row" md={6} justifyContent="flex-end">
-            <TextField
-              id="standard-basic"
-              // label="End"
-
-              type="date"
-              margin="normal"
-              //   value={}
-
-              //   onChange={}
-            />
+            <TextField id="standard-basic" type="date" margin="normal" />
           </Grid>
 
           <Grid item md={12}>
@@ -99,9 +63,6 @@ export default function BasicTextFields() {
               className={classes.FW}
               id="standard-full-width"
               label="Subject"
-              //   value={}
-              //   placeholder="Name"
-              //   onChange={}
             />
           </Grid>
           <Grid item md={12}>
@@ -111,9 +72,6 @@ export default function BasicTextFields() {
               label="Description"
               margin="normal"
               multiline
-              //   value={}
-              //   placeholder="Name"
-              //   onChange={}
             />
           </Grid>
         </Grid>

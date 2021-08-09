@@ -10,20 +10,20 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-// Components
 import EditIcon from "@material-ui/icons/Edit";
 import ClearIcon from "@material-ui/icons/Clear";
+// Components
 import { TaskType } from "./components/types";
 import {
   deleteTaskAction,
   getTaskAction,
   statusTaskAction,
-  updateTaskAction,
 } from "./components/actions";
-import { DialogView } from "./components/dialog/Dialog";
-import NewTask from "./components/Tab/NewTask";
+import { DialogView } from "./components/Dialog/Dialog";
 
-const ResumenTasks = () => {
+
+
+export const ResumenTasks = () => {
   const initialTask: TaskType = {
     taskTitle: "",
     taskUser: "",
@@ -32,7 +32,7 @@ const ResumenTasks = () => {
     taskStart: "",
     taskEnd: "",
   };
-  // const [openNewData, setOpenNewData] = useState<boolean>(false);
+
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [openDialogTask, setOpenDialogTask] = useState(false);
   const [taskData, setTaskData] = useState<TaskType>(initialTask);
@@ -56,9 +56,8 @@ const ResumenTasks = () => {
 
   const taskFilters = tasks.filter((task) => task.taskCheck === true);
   const taskFiltersFalse = tasks.filter((task) => task.taskCheck === false);
-  // console.log(taskFilters);
+
   return (
-    // console.log(data.taskList);
     <>
       <Box margin="9% auto">
         <Grid
@@ -68,7 +67,6 @@ const ResumenTasks = () => {
           alignItems="stretch"
         >
           <Box
-            // md={8}
             borderRight={1}
             margin="0px 20px 0px auto"
             style={{ borderColor: "grey" }}
@@ -78,41 +76,46 @@ const ResumenTasks = () => {
               <Divider style={{ margin: "3% 8% 2% 6%" }} />
             </Typography>
             <List style={{ marginLeft: "2%", marginRight: "4%" }}>
-              {taskFiltersFalse.map(
-                (task) => (
-                  <ListItem key={task.id} button>
-                    <Checkbox
-                      checked={task.taskCheck}
-                      onChange={() => {
-                        if (task.id) statusTaskAction(task.id, !task.taskCheck, obtenerTareas);
-                        // console.log(check);
-                      }}
-                    />
-                    <ListItemText primary={task.taskTitle} secondary={task.taskUser} />
-                    <Typography
-                      noWrap
-                      style={{ marginLeft: "6%", marginRight: "2%" }}
-                    >
-                      {task.taskDscr}
-                    </Typography>
-                    <IconButton
-                      onClick={() => {
-                        setTaskData(task);
-                        if (taskData.id !== "") onOpenDialogTask();
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        if (task.id) deleteTaskAction(task.id);
-                      }}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  </ListItem>
-                )
-              )}
+              {taskFiltersFalse.map((task) => (
+                <ListItem key={task.id} button>
+                  <Checkbox
+                    checked={task.taskCheck}
+                    onChange={() => {
+                      if (task.id)
+                        statusTaskAction(
+                          task.id,
+                          !task.taskCheck,
+                          obtenerTareas
+                        );
+                    }}
+                  />
+                  <ListItemText
+                    primary={task.taskTitle}
+                    secondary={task.taskUser}
+                  />
+                  <Typography
+                    noWrap
+                    style={{ marginLeft: "6%", marginRight: "2%" }}
+                  >
+                    {task.taskDscr}
+                  </Typography>
+                  <IconButton
+                    onClick={() => {
+                      setTaskData(task);
+                      if (taskData.id !== "") onOpenDialogTask();
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => {
+                      if (task.id) deleteTaskAction(task.id);
+                    }}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </ListItem>
+              ))}
             </List>
           </Box>
           <Grid item md={5} style={{ paddingRight: "13%" }}>
@@ -128,7 +131,6 @@ const ResumenTasks = () => {
                       checked={taskCheck}
                       onChange={() => {
                         if (id) statusTaskAction(id, !taskCheck, obtenerTareas);
-                        // console.log(check);
                       }}
                     />
                     <ListItemText primary={taskTitle} secondary={taskUser} />
@@ -147,8 +149,4 @@ const ResumenTasks = () => {
       />
     </>
   );
-
-  // ))
 };
-
-export default ResumenTasks;

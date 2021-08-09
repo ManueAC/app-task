@@ -1,23 +1,16 @@
 import { Box, Button, Grid, Typography } from "@material-ui/core";
-import React, { Component, Fragment } from "react";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-// import { Link as RouterLink } from 'react-router-dom';
 
 import { BtnNewTask } from "./Styles/BtnNewTask";
 import { BtnResumen } from "./Styles/BtnResumen";
-import { useHistory } from "react-router-dom";
 
-export interface HeaderAppProps {}
-
-export const HeaderApp: React.FC<HeaderAppProps> = () => {
-  
-  const history = useHistory();
+export const HeaderApp = () => {
   return (
-    <Fragment>
+    <>
       <Box bgcolor=" #CCFFF1 ">
         <Grid container>
           <Grid item md={1}></Grid>
-          <Grid item md={9} /* bgcolor="red" alignContent="flex-end */>
+          <Grid item md={9}>
             <Box bgcolor="#CCFFF1">
               <Typography
                 align="center"
@@ -30,31 +23,23 @@ export const HeaderApp: React.FC<HeaderAppProps> = () => {
               >
                 Web's Tasks
               </Typography>
-              {/* <Divider variant="middle" /> */}
             </Box>
           </Grid>
-          <Grid
-            item
-            md={1}
-            // justifyContent="center"
-          >
+          <Grid item md={1}>
             <Button size="large">
               <MeetingRoomIcon fontSize="large" style={{ color: "#424242" }} />
             </Button>
           </Grid>
 
-          {/* Tab System -------*/}
           <Grid container direction="row" justifyContent="center" item md={12}>
             <Grid container md={2} justifyContent="center">
-              <BtnResumen
-              // onClick={ () => history.push('/home')}
-              />
+              <BtnResumen />
               <BtnNewTask />
             </Grid>
           </Grid>
         </Grid>
       </Box>
-    </Fragment>
+    </>
   );
 };
 
