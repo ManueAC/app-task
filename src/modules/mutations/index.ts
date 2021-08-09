@@ -15,8 +15,8 @@ export const TASK_CREATE_MUT = gql`
 `;
 
 export const TASK_UPDATE_MUT = gql`
-  mutation taskUpdate($data: TaskUpdateInput!, $filter: TaskKeyFilter!) {
-    taskUpdate(data: $data, filter: $filter) {
+  mutation taskUpdate($inputData: TaskUpdateInput!, $filter: TaskKeyFilter!) {
+    taskUpdate(data: $inputData, filter: $filter) {
       id
       taskTitle
       taskUser
@@ -24,6 +24,13 @@ export const TASK_UPDATE_MUT = gql`
       taskCheck
       taskStart
       taskEnd
+    }
+  }
+`;
+export const TASK_DELETE_MUT = gql`
+  mutation taskDelete($data: TaskDeleteInput, $taskId: TaskKeyFilter) {
+    taskDelete(data: $data, filter: $taskId) {
+      success
     }
   }
 `;
@@ -47,13 +54,7 @@ export const TASK_UPDFLT_MUT = gql`
   }
 `;
 
-export const TASK_DELETE_MUT = gql`
-  mutation taskDelete($id: TaskDeleteInput, $filter: TaskKeyFilter) {
-    taskDelete(data: $id, filter: $filter) {
-      success
-    }
-  }
-`;
+
 
 export const TASK_STATUS_MUT = gql`
   mutation taskUpdateByFilter($filter: TaskFilter!, $status: TaskUpdateByFilterInput!){

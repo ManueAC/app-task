@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  Divider,
   Grid,
   IconButton,
   List,
@@ -8,29 +9,43 @@ import {
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // Components
 import EditIcon from "@material-ui/icons/Edit";
 import ClearIcon from "@material-ui/icons/Clear";
-import { TASKS_LIST_QRY } from "./queries";
-import { useQuery } from "@apollo/client";
-import { TaskType, TaskTypeData } from "./components/types";
-import { getTaskAction, statusTaskAction } from "./components/actions";
-// import { Jumper } from "./components/JumperQR";
-// import { client } from "../shared/api";
+import { TaskType } from "./components/types";
+import {
+  deleteTaskAction,
+  getTaskAction,
+  statusTaskAction,
+  updateTaskAction,
+} from "./components/actions";
+import { DialogView } from "./components/dialog/Dialog";
+import NewTask from "./components/Tab/NewTask";
 
 const ResumenTasks = () => {
+  const initialTask: TaskType = {
+    taskTitle: "",
+    taskUser: "",
+    taskDscr: "",
+    taskCheck: false,
+    taskStart: "",
+    taskEnd: "",
+  };
+  // const [openNewData, setOpenNewData] = useState<boolean>(false);
   const [tasks, setTasks] = useState<TaskType[]>([]);
+  const [openDialogTask, setOpenDialogTask] = useState(false);
+  const [taskData, setTaskData] = useState<TaskType>(initialTask);
 
-  // const [check, setCheck] = useState<Boolean>(taskCheck);
-  // const estado = (status: boolean): void => {
-  //   setCheck(status);
-  // };
-
+  const onOpenDialogTask = (): void => setOpenDialogTask(true);
+  const onCloseDialogTask = (): void => {
+    setOpenDialogTask(false);
+    setTaskData(initialTask);
+  };
   const callback = (data: TaskType[]): void => {
     setTasks(data);
   };
-  // const [] = use
+
   const obtenerTareas = () => {
     getTaskAction(callback);
   };
@@ -41,39 +56,58 @@ const ResumenTasks = () => {
 
   const taskFilters = tasks.filter((task) => task.taskCheck === true);
   const taskFiltersFalse = tasks.filter((task) => task.taskCheck === false);
-  console.log(taskFilters);
+  // console.log(taskFilters);
   return (
     // console.log(data.taskList);
     <>
       <Box margin="9% auto">
-        <Grid container direction="column">
-          <Typography variant="h4" align="center">
-            Current tasks
-          </Typography>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="stretch"
+        >
           <Box
             // md={8}
             borderRight={1}
-            borderColor="grey.500"
-            margin="0px auto"
-            paddingRight="15%"
+            margin="0px 20px 0px auto"
+            style={{ borderColor: "grey" }}
           >
-            <List>
+            <Typography variant="h4" align="center">
+              Current tasks
+              <Divider style={{ margin: "3% 8% 2% 6%" }} />
+            </Typography>
+            <List style={{ marginLeft: "2%", marginRight: "4%" }}>
               {taskFiltersFalse.map(
-                ({ taskTitle, taskDscr, taskUser, id, taskCheck }) => (
-                  <ListItem key={id} button>
+                (task) => (
+                  <ListItem key={task.id} button>
                     <Checkbox
-                      checked={taskCheck}
+                      checked={task.taskCheck}
                       onChange={() => {
-                        if (id) statusTaskAction(id, !taskCheck, obtenerTareas);
+                        if (task.id) statusTaskAction(task.id, !task.taskCheck, obtenerTareas);
                         // console.log(check);
                       }}
                     />
-                    <ListItemText primary={taskTitle} secondary={taskUser} />
-                    <Typography noWrap>{taskDscr}</Typography>
-                    <IconButton>
+                    <ListItemText primary={task.taskTitle} secondary={task.taskUser} />
+                    <Typography
+                      noWrap
+                      style={{ marginLeft: "6%", marginRight: "2%" }}
+                    >
+                      {task.taskDscr}
+                    </Typography>
+                    <IconButton
+                      onClick={() => {
+                        setTaskData(task);
+                        if (taskData.id !== "") onOpenDialogTask();
+                      }}
+                    >
                       <EditIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => {
+                        if (task.id) deleteTaskAction(task.id);
+                      }}
+                    >
                       <ClearIcon />
                     </IconButton>
                   </ListItem>
@@ -81,9 +115,10 @@ const ResumenTasks = () => {
               )}
             </List>
           </Box>
-          <Grid item md={4}>
+          <Grid item md={5} style={{ paddingRight: "13%" }}>
             <Typography variant="h4" align="center">
               Status
+              <Divider style={{ margin: "5% 8% 2% 8%" }} />
             </Typography>
             <List>
               {taskFilters.map(
@@ -98,12 +133,6 @@ const ResumenTasks = () => {
                     />
                     <ListItemText primary={taskTitle} secondary={taskUser} />
                     <Typography noWrap>{taskDscr}</Typography>
-                    {/* <IconButton>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton>
-                    <ClearIcon />
-                  </IconButton> */}
                   </ListItem>
                 )
               )}
@@ -111,6 +140,11 @@ const ResumenTasks = () => {
           </Grid>
         </Grid>
       </Box>
+      <DialogView
+        open={openDialogTask}
+        onClose={onCloseDialogTask}
+        taskData={taskData}
+      />
     </>
   );
 
@@ -118,13 +152,3 @@ const ResumenTasks = () => {
 };
 
 export default ResumenTasks;
-
-// const ResumenTasks = () => {
-//   return (
-
-//   );
-// };
-
-// export default ResumenTasks;
-
-// export default ResumenTasks;

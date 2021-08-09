@@ -36,6 +36,7 @@ function App() {
                 <Switch>
                   <Route exact path="/" component={ResumenTasks} />
                   <Route exact path="/tasks/new" component={NewTask} />
+                  {/* <Route exact path="/tasks/edit/:id" component={DialogTest} /> */}
                 </Switch>
               </Container>
           </Fragment>

@@ -3,9 +3,7 @@ import { TaskType, TaskTypeData } from "./types";
 import { TASKS_LIST_QRY } from "../queries/index";
 import { useQuery } from "@apollo/client";
 import { client } from "../../shared/api/index";
-import { TASK_CREATE_MUT, TASK_STATUS_MUT } from "../mutations";
-
-type SetTasks = (tasks: TaskType[]) => void;
+import { TASK_CREATE_MUT, TASK_STATUS_MUT, TASK_UPDATE_MUT } from "../mutations";
 
 export const getTaskAction = async (
   callback: (data: TaskType[]) => void
@@ -34,6 +32,36 @@ export const createTaskAction = async (
     });
     console.log(data);
     callback();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateTaskAction = async (
+  inputData: TaskType,
+  filter: string
+  // callback: () => void
+): Promise<void> => {
+  const { taskTitle, taskUser, taskDscr, taskCheck, taskStart, taskEnd } =
+    inputData;
+  try {
+    const { data } = await client.mutate({
+      mutation: TASK_UPDATE_MUT,
+      variables: {
+        inputData: {
+          taskTitle,
+          taskUser,
+          taskDscr,
+          taskCheck,
+          taskStart,
+          taskEnd,
+        },
+        filter: {
+          id: filter,
+        },
+      },
+    });
+    console.log(data);
   } catch (err) {
     console.log(err);
   }
@@ -72,9 +100,7 @@ export const statusTaskAction = async (
             set: status,
           },
         },
-
       },
-
     });
     console.log(data);
     obtenerTareas();

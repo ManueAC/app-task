@@ -9,6 +9,10 @@ const btnRsmn = makeStyles({
   },
 });
 
+// const dynColor = () => {
+//   if()
+// }
+
 export const BtnResumen = () => {
   const classes = btnRsmn();
   return (
